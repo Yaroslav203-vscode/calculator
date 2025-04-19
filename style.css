@@ -1,0 +1,28 @@
+#add , #plus, #minus, #multiply, #to-share{
+    color: black;
+    background-color: light grey;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;  
+}
+ #result{
+    color: black;
+
+ }
+ #app{
+    border: 2px solid gray;
+    border-radius: 8px;
+    padding: 10px;
+    width: 230px; 
+    text-align: center;
+ }
+
+#number1,#number2{
+    border:  2px solid black;
+    border-radius: 8px;
+    padding: 8px;
+    width: 200px; 
+}
+#reset{
+    text-align: left;
+}

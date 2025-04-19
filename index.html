@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #input-fields {
+            margin-bottom: 15px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        #mathematical-signs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #result {
+            font-size: 24px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            text-align: center;
+        }
+        #reset {
+            width: 100%;
+            background: #ff4444;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="input-fields">
+            <input id="number1" type="number" placeholder="Первое число">
+            <input id="number2" type="number" placeholder="Второе число">
+        </div>
+
+        <div id="mathematical-signs">
+            <button id="plus">+</button>
+            <button id="minus">-</button>
+            <button id="multiply">×</button>
+            <button id="divide">÷</button>
+        </div>
+
+        <div>
+            <p id="result">0</p>
+            <button id="reset">Сбросить</button>
+        </div>
+    </div>
+
+    <script>
+        // Получаем элементы DOM
+        const num1Input = document.getElementById('number1');
+        const num2Input = document.getElementById('number2');
+        const resultElement = document.getElementById('result');
+        const mathButtons = document.querySelectorAll('#mathematical-signs button');
+        
+        // Текущая операция
+        let currentOperation = null;
+
+        // Функция для вычисления результата
+        function calculate() {
+            const num1 = parseFloat(num1Input.value);
+            const num2 = parseFloat(num2Input.value);
+            
+            if (isNaN(num1) || isNaN(num2)) {
+                resultElement.textContent = "Введите числа";
+                return;
+            }
+
+            let result;
+            switch(currentOperation) {
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '×':
+                    result = num1 * num2;
+                    break;
+                case '÷':
+                    if (num2 === 0) {
+                        resultElement.textContent = "На ноль делить нельзя";
+                        //return;
+                    }
+                    result = num1 / num2;
+                    break;
+                default:
+                    return;
+            }
+
+            // Округляем результат до 4 знаков после запятой
+            resultElement.textContent = Number.isInteger(result) ? result : result.toFixed(4);
+        }
+
+        // Добавляем обработчики для математических кнопок
+        mathButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                currentOperation = this.textContent.trim();
+                calculate();
+            });
+        });
+
+        // Обработчик для кнопки сброса
+        document.getElementById('reset').addEventListener('click', function() {
+            num1Input.value = '';
+            num2Input.value = '';
+            resultElement.textContent = '0';
+            currentOperation = null;
+        });
+
+        // Также можно вычислять при изменении чисел
+        num1Input.addEventListener('input', () => {
+            if (currentOperation) calculate();
+        });
+        
+        num2Input.addEventListener('input', () => {
+            if (currentOperation) calculate();
+        });
+    </script>
+</body>
+</html>
