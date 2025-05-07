@@ -22,7 +22,7 @@
         }
         #mathematical-signs {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 5px;
             margin-bottom: 15px;
         }
@@ -58,6 +58,7 @@
             <button id="minus">-</button>
             <button id="multiply">×</button>
             <button id="divide">÷</button>
+            <button id="sqrt">√</button>
         </div>
 
         <div>
@@ -81,6 +82,20 @@
             const num1 = parseFloat(num1Input.value);
             const num2 = parseFloat(num2Input.value);
             
+            if (currentOperation === '√') {
+                if (isNaN(num1)) {
+                    resultElement.textContent = "Введите число";
+                    return;
+                }
+                if (num1 < 0) {
+                    resultElement.textContent = "Ошибка: отрицательное число";
+                    return;
+                }
+                const result = Math.sqrt(num1);
+                resultElement.textContent = Number.isInteger(result) ? result : result.toFixed(4);
+                return;
+            }
+
             if (isNaN(num1) || isNaN(num2)) {
                 resultElement.textContent = "Введите числа";
                 return;
@@ -100,7 +115,7 @@
                 case '÷':
                     if (num2 === 0) {
                         resultElement.textContent = "На ноль делить нельзя";
-                        //return;
+                        return;
                     }
                     result = num1 / num2;
                     break;
@@ -134,7 +149,7 @@
         });
         
         num2Input.addEventListener('input', () => {
-            if (currentOperation) calculate();
+            if (currentOperation && currentOperation !== '√') calculate();
         });
     </script>
 </body>
